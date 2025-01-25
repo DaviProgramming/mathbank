@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\V1;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Services\V1\Auth\AuthService;
+use App\Http\Resources\V1\Auth\UserResource;
 use App\Http\Requests\V1\Auth\UserLoginRequest;
 use App\Http\Requests\V1\Auth\UserRegisterRequest;
-use App\Http\Resources\V1\Auth\UserResource;
-use App\Services\V1\Auth\AuthService;
-use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -34,6 +35,18 @@ class AuthController extends Controller
         return response()->json([
           'message' => 'User successfully created',
           'data' => new UserResource($data)
+        ]);
+    }
+
+    public function refreshToken(Request $request): JsonResponse
+    {
+        $token = $request->bearerToken();
+
+        $data = $this->authService->refreshToken($token);
+
+        return response()->json([
+            'message' => 'Token refreshed',
+            'data' => $data
         ]);
     }
 }

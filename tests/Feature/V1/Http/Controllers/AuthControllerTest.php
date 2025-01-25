@@ -5,6 +5,7 @@ namespace Tests\Feature\V1\Http\Controllers;
 use Tests\TestCase;
 use App\Models\V1\User;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Response;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -23,7 +24,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->postJson("$this->url/register", $user);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
 
         $userCreated = User::find($response['data']['id']);
 
@@ -42,7 +43,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->postJson("$this->url/login", $user);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
 
         $jwtToken = $response->json('data');
 
@@ -55,15 +56,13 @@ class AuthControllerTest extends TestCase
     {
         $user = UserFactory::new()->create();
 
-        $credentials = [
-            'email' => $user->email,
-            'password' => "password123"
-        ];
+        $response = $this->actingAsUser()->postJson("$this->url/refresh-token");
 
-        $token = JWTAuth::attempt($credentials);
+        $response->assertStatus(Response::HTTP_OK);
 
-        $response = $this->withHeader('Authorization', "Bearer $token")->postJson("$this->url/refresh-token");
-
-        dd($response->json());
+        $response->assertJsonStructure([
+            'message',
+            'data'
+        ]);
     }
 }

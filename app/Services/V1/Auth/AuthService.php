@@ -50,4 +50,11 @@ class AuthService
 
         return $user;
     }
+
+    public function refreshToken($token): string
+    {
+        $newToken = JWTAuth::refresh($token);
+
+        return $newToken;
+    }
 }
