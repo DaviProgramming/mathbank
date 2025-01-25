@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\V1\AuthController;
+use App\Http\Controllers\V1\Auth\AuthController;
 use App\Http\Middleware\JwtMiddleware;
 
 Route::prefix('auth')->group(function () {
