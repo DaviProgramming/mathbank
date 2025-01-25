@@ -2,6 +2,7 @@
 
 namespace Database\Factories\V1;
 
+use App\Enums\Enums\Wallet\WalletTypeEnum;
 use App\Models\V1\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -42,5 +43,12 @@ class UserFactory extends Factory
         return $this->state([
             'password' => Hash::make($password)
         ]);
+    }
+
+    public function stateWallet(WalletTypeEnum $type = null)
+    {
+        return $this->afterCreating(function (User $user) use ($type) {
+            WalletFactory::new()->stateType($type)->stateUser($user)->create();
+        });
     }
 }

@@ -54,8 +54,6 @@ class AuthControllerTest extends TestCase
 
     public function test_refresh_token(): void
     {
-        $user = UserFactory::new()->create();
-
         $response = $this->actingAsUser()->postJson("$this->url/refresh-token");
 
         $response->assertStatus(Response::HTTP_OK);
