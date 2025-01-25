@@ -15,6 +15,7 @@ return new class extends Migration
             $table->decimal('balance', 15, 2)->default(0);
             $table->string('currency', 10);
             $table->string('status', 40);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

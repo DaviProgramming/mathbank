@@ -20,8 +20,7 @@ class Wallet extends Model
         'balance',
         'currency',
         'status',
-        'created_at',
-        'updated_at'
+        'deleted_at'
     ];
 
     protected $attributes = [
