@@ -16,12 +16,11 @@ class WalletService
 
     public function show(Collection $request)
     {
-        dd($request->all());
     }
 
     public function store(Collection $request)
     {
-
+        dd($request->all());
     }
 
     public function update(Collection $request)
