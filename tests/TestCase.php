@@ -3,7 +3,7 @@
 namespace Tests;
 
 use App\Models\V1\User;
-use Database\Factories\UserFactory;
+use Database\Factories\V1\UserFactory;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 

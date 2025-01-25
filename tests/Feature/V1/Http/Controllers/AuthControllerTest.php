@@ -7,7 +7,7 @@ use App\Models\V1\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Response;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Database\Factories\UserFactory;
+use Database\Factories\V1\UserFactory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AuthControllerTest extends TestCase

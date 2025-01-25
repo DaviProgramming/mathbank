@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\UserFactory;
+use Database\Factories\V1\UserFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

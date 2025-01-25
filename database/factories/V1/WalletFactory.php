@@ -6,7 +6,7 @@ use App\Models\V1\User;
 use App\Models\V1\Wallet;
 use App\Enums\Wallet\CurrencysEnum;
 use App\Enums\Wallet\WalletStatusEnum;
-use Database\Factories\UserFactory;
+use Database\Factories\V1\UserFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\Enums\Wallet\WalletTypeEnum;
 
