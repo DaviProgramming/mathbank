@@ -3,6 +3,9 @@
 namespace Tests\Feature\V1\Http\Controllers\Finance;
 
 use Tests\TestCase;
+use App\Models\V1\Wallet;
+use Illuminate\Http\Response;
+use Database\Factories\V1\WalletFactory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class WalletsControllerTest extends TestCase
@@ -13,10 +16,14 @@ class WalletsControllerTest extends TestCase
 
     public function test_store(): void
     {
-        $response = $this->actingAsUser()->post("$this->url");
+        $wallet = WalletFactory::new()->make()->toArray();
 
-        dd($response->json());
+        $response = $this->actingAsUser()->post("$this->url", $wallet);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
+
+        $walletFinded = Wallet::find($response['data']['id']);
+
+        $this->assertModelExists($walletFinded);
     }
 }

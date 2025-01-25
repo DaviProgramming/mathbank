@@ -2,16 +2,16 @@
 
 namespace App\Services\V1\Finance;
 
-use App\Models\V1\User;
+use App\Models\V1\Wallet;
 use Illuminate\Support\Collection;
 
 class WalletService
 {
-    protected User $user;
+    protected Wallet $wallet;
 
     public function __construct()
     {
-        $this->user = new User();
+        $this->wallet = new Wallet();
     }
 
     public function show(Collection $request)
@@ -20,7 +20,7 @@ class WalletService
 
     public function store(Collection $request)
     {
-        dd($request->all());
+       return $this->wallet->create($request->all());
     }
 
     public function update(Collection $request)

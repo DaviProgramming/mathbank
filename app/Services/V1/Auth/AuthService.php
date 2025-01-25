@@ -36,11 +36,7 @@ class AuthService
     {
         $data = $request->all();
 
-        $user = $this->user->create($data);
-
-        $user ?: throw new HttpException(Response::HTTP_BAD_GATEWAY, 'Failed to create user.');
-
-        return $user;
+        return $this->user->create($data);
     }
 
     public function refreshToken($token): string
