@@ -11,12 +11,14 @@ return new class extends Migration
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('wallet_type_id');
             $table->decimal('balance', 15, 2)->default(0);
             $table->string('currency', 10);
             $table->string('status', 40);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('wallet_type_id')->references('id')->on('type_wallets');
         });
     }
 

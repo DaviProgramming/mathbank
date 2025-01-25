@@ -2,10 +2,13 @@
 
 namespace App\Models\V1;
 
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Observers\V1\UserObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
+#[ObservedBy([UserObserver::class])]
 class User extends Authenticatable implements JWTSubject
 {
     protected $fillable = [
@@ -26,9 +29,9 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    public function wallet(): HasOne
+    public function wallet(): HasMany
     {
-        return $this->hasOne(Wallet::class, 'user_id', 'id');
+        return $this->hasMany(Wallet::class, 'user_id', 'id');
     }
 
     public function getJWTIdentifier()

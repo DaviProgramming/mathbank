@@ -8,8 +8,6 @@ use Illuminate\Support\Collection;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Enums\Wallet\CurrencysEnum;
-use App\Enums\Wallet\WalletStatusEnum;
 
 class AuthService
 {
@@ -40,13 +38,7 @@ class AuthService
 
         $user = $this->user->create($data);
 
-        $user
-            ? $user->wallet()->create([
-                'balance' => 0.0,
-                'currency' => CurrencysEnum::BRL->value,
-                'status' => WalletStatusEnum::ACTIVE->value,
-            ])
-            : throw new HttpException(Response::HTTP_BAD_GATEWAY, 'Failed to create user.');
+        $user ?: throw new HttpException(Response::HTTP_BAD_GATEWAY, 'Failed to create user.');
 
         return $user;
     }
