@@ -15,6 +15,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'document',
+        'wallets_limit'
     ];
 
     protected $hidden = [
@@ -23,7 +25,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $attributes = [
-        'wallets_limit' => 1
+        'wallets_limit' => 2
     ];
 
     protected function casts(): array

@@ -19,6 +19,8 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => Carbon::now()->toString(),
+            'document' => fake()->numerify('###.###.###-##'),
+            'wallets_limit' => 2,
             'password' => Hash::make('password123'),
             'remember_token' => Str::random(10),
         ];
@@ -45,7 +47,21 @@ class UserFactory extends Factory
         ]);
     }
 
-    public function stateWallet(WalletTypeEnum $type = null)
+    public function stateDocument(string $document): UserFactory
+    {
+        return $this->state([
+            'document' => $document
+        ]);
+    }
+
+    public function stateWalletLimit(int $limit): UserFactory
+    {
+        return $this->state([
+            'wallets_limit' => $limit
+        ]);
+    }
+
+    public function stateWallet(WalletTypeEnum $type = null): UserFactory
     {
         return $this->afterCreating(function (User $user) use ($type) {
             WalletFactory::new()->stateType($type)->stateUser($user)->create();
