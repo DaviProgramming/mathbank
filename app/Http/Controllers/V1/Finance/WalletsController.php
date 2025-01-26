@@ -14,6 +14,9 @@ class WalletsController extends Controller
 
     public function show(int $id)
     {
+        $data = $this->walletService->show($id);
+
+        return response()->json(new WalletResource($data));
     }
 
     public function store(WalletRequest $request)

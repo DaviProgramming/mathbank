@@ -15,11 +15,18 @@ class WalletService
         $this->wallet = new Wallet();
     }
 
-    public function show(Collection $request)
+    public function show(int $id): Wallet
     {
+        $user = auth()->user();
+
+        $userWallet = $user->wallet()->find($id);
+
+        Assert::notNull($userWallet, 'Wallet não encontrada.');
+
+        return $userWallet;
     }
 
-    public function store(Collection $request)
+    public function store(Collection $request): Wallet
     {
        $user = auth()->user();
 
@@ -32,7 +39,7 @@ class WalletService
        return $this->wallet->create($request->all());
     }
 
-    public function update(Collection $request, int $id)
+    public function update(Collection $request, int $id): Wallet
     {
         $user = auth()->user();
 

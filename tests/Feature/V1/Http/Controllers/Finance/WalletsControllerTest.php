@@ -17,11 +17,22 @@ class WalletsControllerTest extends TestCase
 
     protected string $url = "api/v1/finance/wallets";
 
+    public function test_show(): void
+    {
+        $this->user = UserFactory::new()->create();
+
+        $wallet = WalletFactory::new()->stateUser($this->user)->create();
+
+        $response = $this->actingAsUser($this->user)->getJson("$this->url/$wallet->id");
+
+        $this->assertEquals($wallet->toArray(), $response->json());
+    }
+
     public function test_store(): void
     {
         $wallet = WalletFactory::new()->make()->toArray();
 
-        $response = $this->actingAsUser()->post("$this->url", $wallet);
+        $response = $this->actingAsUser()->postJson("$this->url", $wallet);
 
         $response->assertStatus(Response::HTTP_OK);
 
@@ -47,7 +58,7 @@ class WalletsControllerTest extends TestCase
 
         $walletToBeUpdated = WalletFactory::new()->stateUser($this->user)->create();
 
-        $response = $this->actingAsUser($this->user)->put("$this->url/$walletToBeUpdated->id", $wallet);
+        $response = $this->actingAsUser($this->user)->putJson("$this->url/$walletToBeUpdated->id", $wallet);
 
         $response->assertStatus(Response::HTTP_OK);
 
