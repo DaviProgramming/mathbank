@@ -75,12 +75,12 @@ class WalletsControllerTest extends TestCase
     {
         $this->user = UserFactory::new()->create();
 
-        $walletToBeDestroy = WalletFactory::new()->stateUser($this->user)->create();
+        $walletToBeDestroyed = WalletFactory::new()->stateUser($this->user)->create();
 
-        $response = $this->actingAsUser($this->user)->deleteJson("$this->url/$walletToBeDestroy->id");
+        $response = $this->actingAsUser($this->user)->deleteJson("$this->url/$walletToBeDestroyed->id");
 
         $response->assertStatus(Response::HTTP_OK);
 
-        $this->assertModelMissing($walletToBeDestroy);
+        $this->assertModelMissing($walletToBeDestroyed);
     }
 }
