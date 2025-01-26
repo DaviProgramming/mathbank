@@ -32,9 +32,19 @@ class WalletService
        return $this->wallet->create($request->all());
     }
 
-    public function update(Collection $request)
+    public function update(Collection $request, int $id)
     {
+        $user = auth()->user();
 
+        $userWallet = $user->wallet()->find($id);
+
+        Assert::notNull($userWallet, 'Wallet não encontrada.');
+
+        $data = $request->all();
+
+        $userWallet->update($data);
+
+        return $userWallet;
     }
 
     public function destroy(Collection $request)

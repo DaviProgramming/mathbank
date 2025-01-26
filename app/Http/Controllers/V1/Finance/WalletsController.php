@@ -28,11 +28,11 @@ class WalletsController extends Controller
         ]);
     }
 
-    public function update(WalletRequest $request)
+    public function update(WalletRequest $request, int $id)
     {
         $validated = collect($request->validated());
 
-        $data = $this->walletService->update($validated);
+        $data = $this->walletService->update($validated, $id);
 
         return response()->json([
             'message' => 'Carteira atualizada com sucesso.',
