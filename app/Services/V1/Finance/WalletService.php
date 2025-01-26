@@ -15,6 +15,13 @@ class WalletService
         $this->wallet = new Wallet();
     }
 
+    public function allByUser()
+    {
+        $user = auth()->user();
+
+        return $user->wallet()->get();
+    }
+
     public function show(int $id): Wallet
     {
         $user = auth()->user();

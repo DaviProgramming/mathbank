@@ -13,6 +13,13 @@ class WalletsController extends Controller
     public function __construct(protected WalletService $walletService)
     {}
 
+    public function allByUser(): JsonResponse
+    {
+        $data = $this->walletService->allByUser();
+
+        return response()->json(WalletResource::collection($data));
+    }
+
     public function show(int $id): JsonResponse
     {
         $data = $this->walletService->show($id);
@@ -44,7 +51,7 @@ class WalletsController extends Controller
         ]);
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         $data = $this->walletService->destroy($id);
 
