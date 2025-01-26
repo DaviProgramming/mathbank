@@ -22,6 +22,10 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
     ];
 
+    protected $attributes = [
+        'wallets_limit' => 1
+    ];
+
     protected function casts(): array
     {
         return [

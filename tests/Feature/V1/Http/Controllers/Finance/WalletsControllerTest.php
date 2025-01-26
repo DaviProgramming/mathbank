@@ -2,10 +2,8 @@
 
 namespace Tests\Feature\V1\Http\Controllers\Finance;
 
-use App\Enums\Enums\Wallet\WalletTypeEnum;
 use Tests\TestCase;
 use App\Models\V1\Wallet;
-use Database\Factories\V1\UserFactory;
 use Illuminate\Http\Response;
 use Database\Factories\V1\WalletFactory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -27,5 +25,9 @@ class WalletsControllerTest extends TestCase
         $walletFinded = Wallet::find($response['data']['id']);
 
         $this->assertModelExists($walletFinded);
+
+        $userFromTheWallet = $walletFinded->user()->first();
+
+        $this->assertModelExists($userFromTheWallet);
     }
 }
