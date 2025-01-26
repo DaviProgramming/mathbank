@@ -6,20 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Finance\WalletRequest;
 use App\Http\Resources\V1\Finance\WalletResource;
 use App\Services\V1\Finance\WalletService;
+use Illuminate\Http\JsonResponse;
 
 class WalletsController extends Controller
 {
     public function __construct(protected WalletService $walletService)
     {}
 
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $data = $this->walletService->show($id);
 
         return response()->json(new WalletResource($data));
     }
 
-    public function store(WalletRequest $request)
+    public function store(WalletRequest $request): JsonResponse
     {
         $validated = collect($request->validated());
 
@@ -31,7 +32,7 @@ class WalletsController extends Controller
         ]);
     }
 
-    public function update(WalletRequest $request, int $id)
+    public function update(WalletRequest $request, int $id): JsonResponse
     {
         $validated = collect($request->validated());
 
