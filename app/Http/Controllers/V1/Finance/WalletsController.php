@@ -26,7 +26,7 @@ class WalletsController extends Controller
         $data = $this->walletService->store($validated);
 
         return response()->json([
-            'message' => 'Carteira criada com sucesso.',
+            'message' => 'Wallet criada com sucesso.',
             'data' => new WalletResource($data)
         ]);
     }
@@ -38,13 +38,18 @@ class WalletsController extends Controller
         $data = $this->walletService->update($validated, $id);
 
         return response()->json([
-            'message' => 'Carteira atualizada com sucesso.',
+            'message' => 'Wallet atualizada com sucesso.',
             'data' => new WalletResource($data)
         ]);
     }
 
     public function destroy(int $id)
     {
+        $data = $this->walletService->destroy($id);
 
+        return response()->json([
+            'message' => 'Wallet Excluida com sucesso.',
+            'data' => $data
+        ]);
     }
 }

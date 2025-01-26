@@ -54,8 +54,14 @@ class WalletService
         return $userWallet;
     }
 
-    public function destroy(Collection $request)
+    public function destroy(int $id): bool
     {
+        $user = auth()->user();
 
+        $userWallet = $user->wallet()->find($id);
+
+        Assert::notNull($userWallet, 'Wallet não encontrada.');
+
+        return $userWallet->delete();
     }
 }

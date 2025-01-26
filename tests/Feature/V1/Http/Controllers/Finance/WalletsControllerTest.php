@@ -70,4 +70,17 @@ class WalletsControllerTest extends TestCase
         $isWalletTypeForeign = $walletUpdated->get('wallet_type_id') === WalletTypeEnum::FOREIGN->value;
         $this->assertTrue($isWalletTypeForeign);
     }
+
+    public function test_destroy(): void
+    {
+        $this->user = UserFactory::new()->create();
+
+        $walletToBeDestroy = WalletFactory::new()->stateUser($this->user)->create();
+
+        $response = $this->actingAsUser($this->user)->deleteJson("$this->url/$walletToBeDestroy->id");
+
+        $response->assertStatus(Response::HTTP_OK);
+
+        $this->assertModelMissing($walletToBeDestroy);
+    }
 }
