@@ -21,7 +21,7 @@ class WalletsControllerTest extends TestCase
     {
         $this->user = UserFactory::new()->create();
 
-        WalletFactory::new()->stateUser($this->user)->count(10)->create();
+        WalletFactory::new()->stateUser($this->user)->count(9)->create();
 
         $response = $this->actingAsUser($this->user)->getJson("$this->url/all");
 
@@ -39,6 +39,10 @@ class WalletsControllerTest extends TestCase
                 "updated_at",
             ]
         ]);
+
+        $wallets = collect($response->json());
+
+        $this->assertEquals(10, $wallets->count());
     }
 
     public function test_show(): void
