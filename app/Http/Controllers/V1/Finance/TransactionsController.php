@@ -17,7 +17,12 @@ class TransactionsController extends Controller
 
     public function allByUser(): JsonResponse
     {
-        return response()->json([]);
+        $transactions = $this->transactionService->allByUser();
+
+        return response()->json([
+            'message' => 'Transações encontradas com sucesso.',
+            'data' => TransactionResource::collection($transactions)
+        ]);
     }
 
     public function store(TransactionRequest $request): JsonResponse
@@ -55,7 +60,7 @@ class TransactionsController extends Controller
         return response()->json([
             'message' => 'Transação atualizada com sucesso.',
             'data' => new TransactionResource($transaction)
-        ]);
+    ]);
     }
 
     public function destroy(int $id): JsonResponse
@@ -64,7 +69,7 @@ class TransactionsController extends Controller
 
         return response()->json([
             'message' => 'Transação deletada com sucesso.',
-            'data' => new TransactionResource($transaction)
+            'data' => $transaction
         ]);
     }
 }

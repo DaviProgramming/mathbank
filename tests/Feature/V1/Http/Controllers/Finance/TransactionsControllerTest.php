@@ -2,13 +2,14 @@
 
 namespace Tests\Feature\V1\Http\Controllers\Finance;
 
-use App\Enums\Transaction\TransactionTypeEnum;
 use Tests\TestCase;
 use App\Models\V1\Wallet;
 use Illuminate\Http\Response;
 use App\Models\V1\Transaction;
+use Database\Factories\V1\UserFactory;
 use Database\Factories\V1\WalletFactory;
 use Database\Factories\V1\TransactionFactory;
+use App\Enums\Transaction\TransactionTypeEnum;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TransactionsControllerTest extends TestCase
@@ -16,6 +17,39 @@ class TransactionsControllerTest extends TestCase
     use DatabaseTransactions;
 
     protected string $url = 'api/v1/finance/transactions';
+
+    public function test_all_by_user(): void
+    {
+        $user = UserFactory::new()->create();
+
+        $wallet = WalletFactory::new()
+            ->stateUser($user)
+            ->create();
+
+        TransactionFactory::new()
+            ->count(5)
+            ->stateWallet($wallet)
+            ->create();
+
+        $response = $this->actingAsUser($user)->getJson("$this->url/all");
+
+        $response->assertStatus(Response::HTTP_OK);
+
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'wallet_id',
+                    'wallet_id_transfer',
+                    'amount',
+                    'type',
+                    'recorded_at',
+                ]
+            ]
+        ]);
+
+        $response->assertJsonCount(5, 'data');
+    }
 
     public function test_store(): void
     {
@@ -112,5 +146,23 @@ class TransactionsControllerTest extends TestCase
         $this->assertEquals($transactionWillUpdate['wallet_id_transfer'], $transactionFinded->wallet_id_transfer);
 
         $this->assertEquals($transactionWillUpdate['type'], $transactionFinded->type);
+    }
+
+    public function test_destroy(): void
+    {
+        $transaction = TransactionFactory::new()
+            ->stateAmount(200)
+            ->create();
+
+        $response = $this->actingAsUser()->deleteJson("$this->url/$transaction->id");
+
+        $response->assertStatus(Response::HTTP_OK);
+
+        $this->assertModelMissing($transaction);
+
+        $response->assertJsonStructure([
+            'message',
+            'data'
+        ]);
     }
 }

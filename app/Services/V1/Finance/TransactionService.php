@@ -5,6 +5,7 @@ namespace App\Services\V1\Finance;
 use App\Models\V1\Wallet;
 use Webmozart\Assert\Assert;
 use App\Models\V1\Transaction;
+use Database\Factories\V1\TransactionFactory;
 use Illuminate\Support\Collection;
 
 class TransactionService
@@ -15,6 +16,13 @@ class TransactionService
     public function __construct() {
         $this->transaction = new Transaction();
         $this->wallet = new Wallet();
+    }
+
+    public function allByUser(): Collection
+    {
+        $transactions = auth()->user()->wallet()->with('transactions')->get()->pluck('transactions')->flatten();
+
+        return $transactions;
     }
 
     public function store(Collection $request): Transaction
@@ -48,7 +56,11 @@ class TransactionService
 
     public function show(int $id): Transaction
     {
-        return $this->transaction->find($id);
+        $transaction = $this->transaction->find($id);
+
+        Assert::notNull($transaction, 'Transação não encontrada.');
+
+        return $transaction;
     }
 
     public function update(Collection $request, int $id): Transaction
@@ -88,6 +100,10 @@ class TransactionService
 
     public function destroy(int $id): bool
     {
-        return $this->transaction->find($id)->delete();
+        $transaction = $this->transaction->find($id);
+
+        Assert::notNull($transaction, 'Transação não encontrada.');
+
+        return $transaction->delete();
     }
 }
