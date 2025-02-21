@@ -5,6 +5,7 @@ namespace App\Services\V1\Finance;
 use App\Models\V1\Wallet;
 use Webmozart\Assert\Assert;
 use App\Models\V1\Transaction;
+use Carbon\Carbon;
 use Database\Factories\V1\TransactionFactory;
 use Illuminate\Support\Collection;
 
@@ -18,7 +19,7 @@ class TransactionService
         $this->wallet = new Wallet();
     }
 
-    public function allByUser(): Collection
+    public function allByUser(Collection $request): Collection
     {
         $transactions = auth()->user()
             ->wallet()
@@ -27,7 +28,17 @@ class TransactionService
             ->pluck('transactions')
             ->flatten();
 
-        return $transactions;
+        if (!$request->has('data_inicial')) {
+            return $transactions;
+        }
+
+        $dataInicial = Carbon::parse($request->get('data_inicial'));
+
+        $dataFinal = Carbon::parse($request->get('data_final')) ?? $dataInicial;
+
+        return $transactions->filter(function ($transaction) use ($dataInicial, $dataFinal) {
+            return $transaction->created_at->between($dataInicial, $dataFinal);
+        });
     }
 
     public function store(Collection $request): Transaction

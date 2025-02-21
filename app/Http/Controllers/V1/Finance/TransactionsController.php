@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\V1\Finance\TransactionService;
 use App\Http\Requests\V1\Finance\TransactionRequest;
 use App\Http\Resources\V1\Finance\TransactionResource;
+use App\Http\Requests\V1\Finance\TransactionFilterRequest;
 
 class TransactionsController extends Controller
 {
@@ -14,9 +15,13 @@ class TransactionsController extends Controller
         protected TransactionService $transactionService
     ) {}
 
-    public function allByUser(): JsonResponse
+    public function allByUser(TransactionFilterRequest $request): JsonResponse
     {
-        $transactions = $this->transactionService->allByUser();
+        $validated = $request->validated();
+
+        $data = collect($validated);
+
+        $transactions = $this->transactionService->allByUser($data);
 
         return response()->json([
             'message' => 'Transações encontradas com sucesso.',
