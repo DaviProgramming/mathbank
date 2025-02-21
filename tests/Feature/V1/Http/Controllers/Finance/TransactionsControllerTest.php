@@ -1,0 +1,116 @@
+<?php
+
+namespace Tests\Feature\V1\Http\Controllers\Finance;
+
+use App\Enums\Transaction\TransactionTypeEnum;
+use Tests\TestCase;
+use App\Models\V1\Wallet;
+use Illuminate\Http\Response;
+use App\Models\V1\Transaction;
+use Database\Factories\V1\WalletFactory;
+use Database\Factories\V1\TransactionFactory;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class TransactionsControllerTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    protected string $url = 'api/v1/finance/transactions';
+
+    public function test_store(): void
+    {
+        $initialAmount = 200;
+
+        $walletOrigin = WalletFactory::new()
+            ->stateBalance($initialAmount)
+            ->create();
+
+        $walletDestination = WalletFactory::new()
+            ->stateBalance(0)
+            ->create();
+
+        $transaction = TransactionFactory::new()
+            ->stateWallet($walletOrigin)
+            ->stateWalletTransfer($walletDestination)
+            ->stateType(TransactionTypeEnum::SENT)
+            ->stateAmount(100)
+            ->make()
+            ->toArray();
+
+        $response = $this->actingAsUser()->postJson($this->url, $transaction);
+
+        $response->assertStatus(Response::HTTP_OK);
+
+        $walletOriginFinded = Wallet::find($response->json('data.wallet_id'));
+
+        $walletDestinationFinded = Wallet::find($response->json('data.wallet_id_transfer'));
+
+        $this->assertModelExists($walletOriginFinded);
+        $this->assertModelExists($walletDestinationFinded);
+
+        $this->assertEquals($initialAmount - $transaction['amount'], $walletOriginFinded->balance);
+        $this->assertEquals($transaction['amount'], $walletDestinationFinded->balance);
+
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'wallet_id',
+                'wallet_id_transfer',
+                'amount',
+                'type',
+                'recorded_at',
+            ]
+        ]);
+    }
+
+    public function test_update(): void
+    {
+        $initialAmount = 200;
+
+        $walletOrigin = WalletFactory::new()
+            ->stateBalance($initialAmount)
+            ->create();
+
+        $walletDestination = WalletFactory::new()
+            ->stateBalance(0)
+            ->create();
+
+        $transaction = TransactionFactory::new()
+            ->stateWallet($walletOrigin)
+            ->stateWalletTransfer($walletDestination)
+            ->stateAmount(200)
+            ->create();
+
+        $transactionWillUpdate = TransactionFactory::new()
+            ->stateWallet($walletOrigin)
+            ->stateWalletTransfer($walletDestination)
+            ->stateAmount(150)
+            ->make()
+            ->toArray();
+
+        $response = $this->actingAsUser()->putJson("$this->url/$transaction->id", $transactionWillUpdate);
+
+        $response->assertStatus(Response::HTTP_OK);
+
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'wallet_id',
+                'wallet_id_transfer',
+                'amount',
+                'type',
+                'recorded_at',
+            ]
+        ]);
+
+        $transactionFinded = Transaction::find($transaction->id);
+
+        $this->assertEquals($transactionWillUpdate['amount'], $transactionFinded->amount);
+
+        $this->assertEquals($transactionWillUpdate['wallet_id'], $transactionFinded->wallet_id);
+
+        $this->assertEquals($transactionWillUpdate['wallet_id_transfer'], $transactionFinded->wallet_id_transfer);
+
+        $this->assertEquals($transactionWillUpdate['type'], $transactionFinded->type);
+    }
+}
