@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\V1\Finance;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\V1\Finance\TransactionService;

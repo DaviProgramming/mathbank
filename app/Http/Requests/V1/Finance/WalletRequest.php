@@ -21,4 +21,13 @@ class WalletRequest extends FormRequest
             'currency' => ['required', 'string', Rule::in($currencyTypes)]
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'user_id' => 'Usuário',
+            'wallet_type_id' => 'Tipo de carteira',
+            'currency' => 'Moeda'
+        ];
+    }
 }

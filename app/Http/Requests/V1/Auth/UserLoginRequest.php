@@ -17,8 +17,8 @@ class UserLoginRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'email' => '[ Email ]',
-            'password' => '[ Password ]',
+            'email' => 'Email',
+            'password' => 'Senha',
         ];
     }
 }

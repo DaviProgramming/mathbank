@@ -15,4 +15,14 @@ class UserRegisterRequest extends FormRequest
             'document' => ['required', 'string', 'regex:/^(\d{3}\.\d{3}\.\d{3}\-\d{2}|\d{2}\.\d{3}\.\d{3}\/0001\-\d{2})$/']
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => 'Nome',
+            'email' => 'Email',
+            'password' => 'Senha',
+            'document' => 'Documento'
+        ];
+    }
 }
