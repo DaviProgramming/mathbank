@@ -6,7 +6,6 @@ use App\Models\V1\Wallet;
 use Webmozart\Assert\Assert;
 use App\Models\V1\Transaction;
 use Carbon\Carbon;
-use Database\Factories\V1\TransactionFactory;
 use Illuminate\Support\Collection;
 
 class TransactionService
