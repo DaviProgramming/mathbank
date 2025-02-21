@@ -20,7 +20,12 @@ class TransactionService
 
     public function allByUser(): Collection
     {
-        $transactions = auth()->user()->wallet()->with('transactions')->get()->pluck('transactions')->flatten();
+        $transactions = auth()->user()
+            ->wallet()
+            ->with('transactions')
+            ->get()
+            ->pluck('transactions')
+            ->flatten();
 
         return $transactions;
     }
