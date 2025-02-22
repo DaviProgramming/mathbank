@@ -34,9 +34,7 @@ class AuthService
 
     public function register(Collection $request): User
     {
-        $data = $request->all();
-
-        return $this->user->create($data);
+        return $this->user->create($request->all());
     }
 
     public function refreshToken($token): string

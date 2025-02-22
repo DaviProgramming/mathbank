@@ -28,6 +28,10 @@ class User extends Authenticatable implements JWTSubject
         'wallets_limit' => 2
     ];
 
+    protected $casts = [
+        'password' => 'hashed',
+    ];
+
     protected function casts(): array
     {
         return [
