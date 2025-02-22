@@ -43,7 +43,9 @@ class WalletService
 
        Assert::true($userWallets < $userWalletLimit, 'Limite de wallets atingido.');
 
-       return $this->wallet->create($request->all());
+       $newWalletData = $request->all() + ['user_id' => $user->id];
+
+       return $this->wallet->create($newWalletData);
     }
 
     public function update(Collection $request, int $id): Wallet

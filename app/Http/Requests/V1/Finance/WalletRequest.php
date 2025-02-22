@@ -16,7 +16,6 @@ class WalletRequest extends FormRequest
         $currencyTypes = array_column(CurrencysEnum::cases(), 'value');
 
         return [
-            'user_id' => ['required', 'integer' , 'exists:users,id', 'gt:0'],
             'wallet_type_id' => ['required', 'integer', Rule::in($walletTypes)],
             'currency' => ['required', 'string', Rule::in($currencyTypes)]
         ];
@@ -25,7 +24,6 @@ class WalletRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'user_id' => 'Usuário',
             'wallet_type_id' => 'Tipo de carteira',
             'currency' => 'Moeda'
         ];
