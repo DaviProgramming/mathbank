@@ -1,65 +1,73 @@
 
-# README MathBank
 
-## Introdução
+# mathBank 🏦
 
-Esta é uma aplicação desenvolvida em Laravel, um framework PHP robusto e elegante. A aplicação oferece uma série de funcionalidades para gerenciar transações financeiras, incluindo a criação e visualização de carteiras e transações.
+![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)
+![Laravel](https://img.shields.io/badge/Laravel-11.x-orange.svg)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15.x-black.svg)
+![Docker](https://img.shields.io/badge/Docker-20.x-brightgreen.svg)
 
-## Funcionalidades
+mathBank é uma aplicação que permite realizar transações financeiras 💵, gerenciar usuários 👥 e carteiras 💼. Desenvolvido com o framework Laravel na versão 11 em PHP 8.2, e utilizando PostgreSQL como banco de dados, o projeto oferece uma solução robusta e moderna para quem busca uma plataforma de gerenciamento financeiro. A implementação em Docker facilita a configuração e o uso da aplicação. 🚀
 
-- **Gerenciamento de Usuários**: Registro e autenticação de usuários.
-- **Carteiras**: Criação e gerenciamento de carteiras digitais.
-- **Transações**: Realização de transações entre carteiras.
-- **Filtros**: Filtragem de transações por data.
+## Funcionalidades ✨
 
-## Instalação
+- **Gerenciamento de Usuários**: Criação, edição e exclusão de usuários.
+- **Gerenciamento de Carteiras**: Controle de múltiplas carteiras por usuário.
+- **Transações Financeiras**: Acompanhamento e histórico de transações, incluindo depósitos e saques.
 
-Para instalar a aplicação, siga os passos abaixo:
+## Tecnologias Utilizadas 🛠️
+
+- **Backend**: Laravel 11, PHP 8.2
+- **Banco de Dados**: PostgreSQL
+- **Containerização**: Docker
+
+## Pré-requisitos 🔧
+
+Antes de começar, assegure-se de ter as seguintes ferramentas instaladas em sua máquina:
+
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/)
+
+## Instalação 🛠️
 
 1. Clone o repositório:
-   ```bash
+    ```bash
    git clone https://github.com/DaviProgramming/mathbank.git
-   ```
+    ```
+2. Navegue até o diretório do projeto:
 
-2. Navegue até o diretório da aplicação:
    ```bash
-   cd mathbank
+   cd mathBank
    ```
 
-3. Instale as dependências usando o Composer:
+3. Construa e inicie os containers Docker:
+
    ```bash
-   composer install
+   docker-compose up --build
    ```
 
-4. Crie um arquivo `.env` a partir do arquivo `.env.example`:
+4. Acesse o container do PHP:
+
    ```bash
-   cp .env.example .env
+   docker exec -it mathbank-app bash
    ```
 
-5. Gere a chave da aplicação:
-   ```bash
-   php artisan key:generate
-   ```
+5. Acesse a aplicação através do navegador em `http://localhost:8000`. 🌐
 
-6. Execute as migrações do banco de dados:
-   ```bash
-   php artisan migrate
-   ```
+## Contribuição 🤝
 
-## Requisitos
+Contribuições são bem-vindas! Se você gostaria de ajudar, siga as etapas abaixo:
 
-- PHP 8.0 ou superior
-- Composer
-- Um banco de dados (MySQL, PostgreSQL, etc.)
+1. Faça um fork do repositório.
+2. Crie sua feature branch (`git checkout -b nova-feature`).
+3. Faça suas alterações e commit (`git commit -m 'Adiciona nova feature'`).
+4. Envie para o seu repositório (`git push origin nova-feature`).
+5. Abra um Pull Request.
 
-## Contribuição
+## Licença 📄
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request ou relatar problemas.
+Este projeto está licenciado sob a MIT License. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## Licença
+## Contato 📫
 
-Esta aplicação está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## Agradecimentos
-
-Agradecemos a todos que contribuíram para o desenvolvimento desta aplicação!
+Para qualquer dúvida, sinta-se à vontade para abrir uma issue ou entrar em contato diretamente.
