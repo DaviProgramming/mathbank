@@ -1,13 +1,13 @@
 
 
-# mathBank 🏦
+# MathBank 🏦
 
 ![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)
 ![Laravel](https://img.shields.io/badge/Laravel-11.x-orange.svg)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15.x-black.svg)
 ![Docker](https://img.shields.io/badge/Docker-20.x-brightgreen.svg)
 
-mathBank é uma aplicação que permite realizar transações financeiras 💵, gerenciar usuários 👥 e carteiras 💼. Desenvolvido com o framework Laravel na versão 11 em PHP 8.2, e utilizando PostgreSQL como banco de dados, o projeto oferece uma solução robusta e moderna para quem busca uma plataforma de gerenciamento financeiro. A implementação em Docker facilita a configuração e o uso da aplicação. 🚀
+MathBank é uma aplicação que permite realizar transações financeiras 💵, gerenciar usuários 👥 e carteiras 💼. Desenvolvido com o framework Laravel na versão 11 em PHP 8.2, e utilizando PostgreSQL como banco de dados, o projeto oferece uma solução robusta e moderna para quem busca uma plataforma de gerenciamento financeiro. A implementação em Docker facilita a configuração e o uso da aplicação. 🚀
 
 ## Funcionalidades ✨
 
