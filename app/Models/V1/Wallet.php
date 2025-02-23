@@ -58,11 +58,11 @@ class Wallet extends Model
 
     public function deposits(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'wallet_id_transfer', 'id')->where('type', TransactionTypeEnum::DEPOSIT);
+        return $this->transactionsTransfer()->where('type', TransactionTypeEnum::DEPOSIT);
     }
 
     public function withdraws(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'wallet_id_transfer', 'id')->where('type', TransactionTypeEnum::WITHDRAW);
+        return $this->transactionsTransfer()->where('type', TransactionTypeEnum::WITHDRAW);
     }
 }
