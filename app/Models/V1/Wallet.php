@@ -6,6 +6,7 @@ use App\Enums\Wallet\CurrencysEnum;
 use App\Enums\Wallet\WalletStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\Enums\Wallet\WalletTypeEnum;
+use App\Enums\Transaction\TransactionTypeEnum;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -53,5 +54,15 @@ class Wallet extends Model
     public function transactionsTransfer(): HasMany
     {
         return $this->hasMany(Transaction::class, 'wallet_id_transfer', 'id');
+    }
+
+    public function deposits(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'wallet_id_transfer', 'id')->where('type', TransactionTypeEnum::DEPOSIT);
+    }
+
+    public function withdraws(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'wallet_id_transfer', 'id')->where('type', TransactionTypeEnum::WITHDRAW);
     }
 }
