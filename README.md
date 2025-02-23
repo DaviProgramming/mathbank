@@ -1,4 +1,4 @@
-# MathBank 🏦
+# 🏦 MathBank 
 
 ![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)
 ![Laravel](https://img.shields.io/badge/Laravel-11.x-orange.svg)
@@ -7,26 +7,26 @@
 
 MathBank é uma aplicação que permite realizar transações financeiras 💵, gerenciar usuários 👥 e carteiras 💼. Desenvolvido com o framework Laravel na versão 11 em PHP 8.2, e utilizando PostgreSQL como banco de dados, o projeto oferece uma solução robusta e moderna para quem busca uma plataforma de gerenciamento financeiro. A implementação em Docker facilita a configuração e o uso da aplicação. 🚀
 
-## Funcionalidades ✨
+## ✨ Funcionalidades 
 
 - **Gerenciamento de Usuários**: Criação, edição e exclusão de usuários.
 - **Gerenciamento de Carteiras**: Controle de múltiplas carteiras por usuário.
 - **Transações Financeiras**: Acompanhamento e histórico de transações, incluindo depósitos e saques.
 
-## Tecnologias Utilizadas 🛠️
+## 🛠️ Tecnologias Utilizadas 
 
 - **Backend**: Laravel 11, PHP 8.2
 - **Banco de Dados**: PostgreSQL
 - **Containerização**: Docker
 
-## Pré-requisitos 🔧
+## 🔧 Pré-requisitos 
 
 Antes de começar, assegure-se de ter as seguintes ferramentas instaladas em sua máquina:
 
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/)
 
-## Instalação 🛠️
+## 🛠️ Instalação 
 
 1. Clone o repositório:
     ```bash
@@ -50,9 +50,9 @@ Antes de começar, assegure-se de ter as seguintes ferramentas instaladas em sua
    docker exec -it mathbank-app bash
    ```
 
-5. Acesse a aplicação através do navegador em `http://localhost:8000`. 🌐
+5. 🌐 Acesse a aplicação através do navegador em `http://localhost:8000`. 
 
-## Rodando os Testes 🧪
+## 🧪 Rodando os Testes 
 
 Para garantir que tudo está funcionando corretamente, você pode rodar os testes da aplicação. Siga os passos abaixo:
 
@@ -66,7 +66,7 @@ Para garantir que tudo está funcionando corretamente, você pode rodar os teste
    docker compose exec app php artisan test tests/feature
    ```
 
-## Contribuição 🤝
+## 🤝 Contribuição 
 
 Contribuições são bem-vindas! Se você gostaria de ajudar, siga as etapas abaixo:
 
@@ -76,10 +76,10 @@ Contribuições são bem-vindas! Se você gostaria de ajudar, siga as etapas aba
 4. Envie para o seu repositório (`git push origin nova-feature`).
 5. Abra um Pull Request.
 
-## Licença 📄
+## 📄 Licença 
 
 Este projeto está licenciado sob a MIT License. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## Contato 📫
+## 📫 Contato 
 
 Para qualquer dúvida, sinta-se à vontade para abrir uma issue ou entrar em contato diretamente.
