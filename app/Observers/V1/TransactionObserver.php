@@ -22,7 +22,7 @@ class TransactionObserver
             'recorded_at' => now()
         ]);
 
-        $this->walletBalanceHistory->create([
+        $transaction->isSameWallet() ?: $this->walletBalanceHistory->create([
             'wallet_id' => $transaction->walletTransfer->id,
             'balance' => $transaction->walletTransfer->balance,
             'recorded_at' => now()
@@ -37,7 +37,22 @@ class TransactionObserver
             'recorded_at' => now()
         ]);
 
+        $transaction->isSameWallet() ?: $this->walletBalanceHistory->create([
+            'wallet_id' => $transaction->walletTransfer->id,
+            'balance' => $transaction->walletTransfer->balance,
+            'recorded_at' => now()
+        ]);
+    }
+
+    public function deleted(Transaction $transaction)
+    {
         $this->walletBalanceHistory->create([
+            'wallet_id' => $transaction->wallet_id,
+            'balance' => $transaction->wallet->balance,
+            'recorded_at' => now()
+        ]);
+
+        $transaction->isSameWallet() ?: $this->walletBalanceHistory->create([
             'wallet_id' => $transaction->walletTransfer->id,
             'balance' => $transaction->walletTransfer->balance,
             'recorded_at' => now()

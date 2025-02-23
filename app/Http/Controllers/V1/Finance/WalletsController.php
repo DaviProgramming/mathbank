@@ -7,6 +7,7 @@ use App\Http\Requests\V1\Finance\WalletRequest;
 use App\Http\Resources\V1\Finance\WalletResource;
 use App\Services\V1\Finance\WalletService;
 use Illuminate\Http\JsonResponse;
+use App\Http\Resources\V1\Finance\WalletBalanceHistoryResource;
 
 class WalletsController extends Controller
 {
@@ -59,5 +60,12 @@ class WalletsController extends Controller
             'message' => 'Wallet Excluida com sucesso.',
             'data' => $data
         ]);
+    }
+
+    public function balanceHistory(int $id): JsonResponse
+    {
+        $data = $this->walletService->balanceHistory($id);
+
+        return response()->json(WalletBalanceHistoryResource::collection($data));
     }
 }

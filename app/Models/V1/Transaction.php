@@ -28,4 +28,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Wallet::class, 'wallet_id_transfer', 'id');
     }
+
+    public function isSameWallet(): bool
+    {
+        return $this->wallet_id === $this->walletTransfer->id;
+    }
 }

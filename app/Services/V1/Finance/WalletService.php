@@ -71,6 +71,19 @@ class WalletService
 
         Assert::notNull($userWallet, 'Wallet não encontrada.');
 
+        Assert::true($userWallet->balance === 0, 'Wallet não pode ser deletada, pois possui saldo.');
+
+        Assert::true($userWallet->transactions->isEmpty(), 'Wallet não pode ser deletada, pois possui transações.');
+
         return $userWallet->delete();
+    }
+
+    public function balanceHistory(int $id): Collection
+    {
+        $wallet = $this->wallet->find($id);
+
+        Assert::notNull($wallet, 'Wallet não encontrada.');
+
+        return $wallet->balanceHistory;
     }
 }

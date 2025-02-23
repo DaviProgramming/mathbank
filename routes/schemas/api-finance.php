@@ -8,6 +8,7 @@ Route::prefix('finance')
     ->middleware(JwtMiddleware::class)
     ->group(function () {
         Route::get('wallets/all', [WalletsController::class, 'allByUser']);
+        Route::get('wallets/{id}/balance-history', [WalletsController::class, 'balanceHistory']);
         Route::apiResource('wallets', WalletsController::class)
             ->only('store', 'update', 'show', 'destroy');
 
