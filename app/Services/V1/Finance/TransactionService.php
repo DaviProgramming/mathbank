@@ -69,6 +69,40 @@ class TransactionService
         return $this->transaction->create($request->all());
     }
 
+    public function deposit(Collection $request): Transaction
+    {
+        $wallet = $request->get('wallet_id');
+
+        $wallet = $this->wallet->find($wallet);
+
+        Assert::notNull($wallet, 'Wallet não encontrada.');
+
+        $wallet->balance += $request->get('amount');
+
+        $wallet->save();
+
+        return $this->transaction->create($request->all());
+    }
+
+    public function withdraw(Collection $request): Transaction
+    {
+        $wallet = $request->get('wallet_id');
+
+        $wallet = $this->wallet->find($wallet);
+
+        $amount = $request->get('amount');
+
+        Assert::notNull($wallet, 'Wallet não encontrada.');
+
+        Assert::true($wallet->balance >= $amount, 'Saldo insuficiente.');
+
+        $wallet->balance -= $amount;
+
+        $wallet->save();
+
+        return $this->transaction->create($request->all());
+    }
+
     public function show(int $id): Transaction
     {
         $transaction = $this->transaction->find($id);

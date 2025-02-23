@@ -12,6 +12,8 @@ Route::prefix('finance')
             ->only('store', 'update', 'show', 'destroy');
 
         Route::get('transactions/all', [TransactionsController::class, 'allByUser']);
+        Route::post('transactions/deposit', [TransactionsController::class, 'deposit']);
+        Route::post('transactions/withdraw', [TransactionsController::class, 'withdraw']);
         Route::apiResource('transactions', TransactionsController::class)
             ->only('store', 'update', 'show', 'destroy');
     });

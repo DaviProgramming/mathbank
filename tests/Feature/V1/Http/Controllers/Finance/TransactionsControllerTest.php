@@ -141,6 +141,80 @@ class TransactionsControllerTest extends TestCase
         ]);
     }
 
+    public function test_deposit(): void
+    {
+        $wallet = WalletFactory::new()
+            ->stateBalance(0)
+            ->create();
+
+        $transaction = TransactionFactory::new()
+            ->stateWallet($wallet)
+            ->stateWalletTransfer($wallet)
+            ->stateType(TransactionTypeEnum::DEPOSIT)
+            ->stateAmount(100)
+            ->make()
+            ->toArray();
+
+        $response = $this->actingAsUser()->postJson("$this->url/deposit", $transaction);
+
+        $response->assertStatus(Response::HTTP_OK);
+
+        $walletFinded = Wallet::find($response->json('data.wallet_id'));
+
+        $this->assertModelExists($walletFinded);
+
+        $this->assertEquals($transaction['amount'], $walletFinded->balance);
+
+        $transactionFinded = Transaction::find($response->json('data.id'));
+
+        $this->assertModelExists($transactionFinded);
+
+        $this->assertEquals($transaction['amount'], $transactionFinded->amount);
+
+        $this->assertEquals($transaction['wallet_id'], $transactionFinded->wallet_id);
+
+        $this->assertEquals($transaction['wallet_id_transfer'], $transactionFinded->wallet_id_transfer);
+
+        $this->assertEquals($transaction['type'], $transactionFinded->type);
+    }
+
+    public function test_withdraw(): void
+    {
+        $wallet = WalletFactory::new()
+            ->stateBalance(100)
+            ->create();
+
+        $transaction = TransactionFactory::new()
+            ->stateWallet($wallet)
+            ->stateWalletTransfer($wallet)
+            ->stateAmount(100)
+            ->stateType(TransactionTypeEnum::WITHDRAW)
+            ->make()
+            ->toArray();
+
+        $response = $this->actingAsUser()->postJson("$this->url/withdraw", $transaction);
+
+        $response->assertStatus(Response::HTTP_OK);
+
+        $walletFinded = Wallet::find($response->json('data.wallet_id'));
+
+        $this->assertModelExists($walletFinded);
+
+        $this->assertEquals($wallet->balance - $transaction['amount'], $walletFinded->balance);
+
+        $transactionFinded = Transaction::find($response->json('data.id'));
+
+        $this->assertModelExists($transactionFinded);
+
+        $this->assertEquals($transaction['amount'], $transactionFinded->amount);
+
+        $this->assertEquals($transaction['wallet_id'], $transactionFinded->wallet_id);
+
+        $this->assertEquals($transaction['wallet_id_transfer'], $transactionFinded->wallet_id_transfer);
+
+        $this->assertEquals($transaction['type'], $transactionFinded->type);
+    }
+
     public function test_update(): void
     {
         $initialAmount = 200;

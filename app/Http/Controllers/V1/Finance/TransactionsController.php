@@ -43,6 +43,35 @@ class TransactionsController extends Controller
         ]);
     }
 
+
+    public function deposit(TransactionRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $data = collect($validated);
+
+        $transaction = $this->transactionService->deposit($data);
+
+        return response()->json([
+            'message' => 'Depósito realizado com sucesso.',
+            'data' => new TransactionResource($transaction)
+        ]);
+    }
+
+    public function withdraw(TransactionRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $data = collect($validated);
+
+        $transaction = $this->transactionService->withdraw($data);
+
+        return response()->json([
+            'message' => 'Saque realizado com sucesso.',
+            'data' => new TransactionResource($transaction)
+        ]);
+    }
+
     public function show(int $id): JsonResponse
     {
         $transaction = $this->transactionService->show($id);
