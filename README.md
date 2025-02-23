@@ -88,4 +88,4 @@ Para qualquer dúvida, sinta-se à vontade para abrir uma issue ou entrar em con
 
 Você pode baixar a coleção do Postman para facilitar os testes da API através do seguinte link:
 
-- [Download da Coleção do Postman](https://www.mediafire.com/file/qtwofyja9e2p1kb/MathBank.postman_collection.json/file)
+- [Download da Coleção do Postman](https://drive.google.com/file/d/1ipJDzjiC8hkOyTwWw3SnIbbMXlXqC_In/view?usp=sharing)
