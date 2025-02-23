@@ -2,11 +2,12 @@
 
 namespace App\Services\V1\Finance;
 
+use Carbon\Carbon;
 use App\Models\V1\Wallet;
 use Webmozart\Assert\Assert;
 use App\Models\V1\Transaction;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use App\Enums\Transaction\TransactionTypeEnum;
 
 class TransactionService
 {
@@ -26,6 +27,27 @@ class TransactionService
             ->get()
             ->pluck('transactions')
             ->flatten();
+
+        if (!$request->has('data_inicial')) {
+            return $transactions;
+        }
+
+        $dataInicial = Carbon::parse($request->get('data_inicial'));
+
+        $dataFinal = Carbon::parse($request->get('data_final')) ?? $dataInicial;
+
+        return $transactions->filter(function ($transaction) use ($dataInicial, $dataFinal) {
+            return $transaction->created_at->between($dataInicial, $dataFinal);
+        });
+    }
+
+    public function allByWallet(Collection $request, int $id): Collection
+    {
+        $wallet = $this->wallet->find($id);
+
+        Assert::notNull($wallet, 'Wallet não encontrada.');
+
+        $transactions = $wallet->transactions;
 
         if (!$request->has('data_inicial')) {
             return $transactions;
@@ -81,7 +103,13 @@ class TransactionService
 
         $wallet->save();
 
-        return $this->transaction->create($request->all());
+        $data = $request->all();
+
+        $data['type'] = TransactionTypeEnum::DEPOSIT;
+
+        $data['wallet_id_transfer'] = $wallet->id;
+
+        return $this->transaction->create($data);
     }
 
     public function withdraw(Collection $request): Transaction
@@ -100,7 +128,13 @@ class TransactionService
 
         $wallet->save();
 
-        return $this->transaction->create($request->all());
+        $data = $request->all();
+
+        $data['type'] = TransactionTypeEnum::WITHDRAW;
+
+        $data['wallet_id_transfer'] = $wallet->id;
+
+        return $this->transaction->create($data);
     }
 
     public function show(int $id): Transaction

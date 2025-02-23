@@ -8,6 +8,7 @@ use App\Services\V1\Finance\TransactionService;
 use App\Http\Requests\V1\Finance\TransactionRequest;
 use App\Http\Resources\V1\Finance\TransactionResource;
 use App\Http\Requests\V1\Finance\TransactionFilterRequest;
+use App\Http\Requests\V1\Finance\TransactionDepositWithdrawRequest;
 
 class TransactionsController extends Controller
 {
@@ -22,6 +23,20 @@ class TransactionsController extends Controller
         $data = collect($validated);
 
         $transactions = $this->transactionService->allByUser($data);
+
+        return response()->json([
+            'message' => 'Transações encontradas com sucesso.',
+            'data' => TransactionResource::collection($transactions)
+        ]);
+    }
+
+    public function allByWallet(TransactionFilterRequest $request, int $id): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $data = collect($validated);
+
+        $transactions = $this->transactionService->allByWallet($data, $id);
 
         return response()->json([
             'message' => 'Transações encontradas com sucesso.',
@@ -44,7 +59,7 @@ class TransactionsController extends Controller
     }
 
 
-    public function deposit(TransactionRequest $request): JsonResponse
+    public function deposit(TransactionDepositWithdrawRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
@@ -58,7 +73,7 @@ class TransactionsController extends Controller
         ]);
     }
 
-    public function withdraw(TransactionRequest $request): JsonResponse
+    public function withdraw(TransactionDepositWithdrawRequest $request): JsonResponse
     {
         $validated = $request->validated();
 

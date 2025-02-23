@@ -95,6 +95,82 @@ class TransactionsControllerTest extends TestCase
         $response->assertJsonCount(5, 'data');
     }
 
+    public function test_all_by_wallet(): void
+    {
+        $user = UserFactory::new()->create();
+
+        $wallet = WalletFactory::new()
+            ->stateUser($user)
+            ->create();
+
+        TransactionFactory::new()
+            ->count(5)
+            ->stateWallet($wallet)
+            ->create();
+
+        $response = $this->actingAsUser($user)->getJson("$this->url/wallet/$wallet->id");
+
+        $response->assertStatus(Response::HTTP_OK);
+
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'wallet_id',
+                    'wallet_id_transfer',
+                    'amount',
+                    'type',
+                    'recorded_at',
+                ]
+            ]
+        ]);
+
+        $response->assertJsonCount(5, 'data');
+    }
+
+    public function test_all_by_wallet_with_filter(): void
+    {
+        $user = UserFactory::new()->create();
+
+        $wallet = WalletFactory::new()
+            ->stateUser($user)
+            ->create();
+
+        TransactionFactory::new()
+            ->count(5)
+            ->stateWallet($wallet)
+            ->stateCreatedAt(Carbon::now()->subDays(5))
+            ->create();
+
+        TransactionFactory::new()
+            ->count(5)
+            ->stateWallet($wallet)
+            ->create();
+
+        $date = Carbon::now();
+
+        $dataInicial = $date->format('Y-m-d');
+
+        $response = $this->actingAsUser($user)->getJson("$this->url/wallet/$wallet->id?data_inicial=$dataInicial");
+
+        $response->assertStatus(Response::HTTP_OK);
+
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'wallet_id',
+                    'wallet_id_transfer',
+                    'amount',
+                    'type',
+                    'recorded_at',
+                ]
+            ]
+        ]);
+
+        $response->assertJsonCount(5, 'data');
+    }
+
     public function test_store(): void
     {
         $initialAmount = 200;
