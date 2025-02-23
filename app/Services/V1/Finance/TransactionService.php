@@ -153,6 +153,20 @@ class TransactionService
 
         Assert::notNull($transaction, 'Transação não encontrada.');
 
+        $walletOrigin = $transaction->wallet_id;
+
+        $walletOrigin = $this->wallet->find($walletOrigin);
+
+        $walletDestination = $transaction->wallet_id_transfer;
+
+        $walletDestination = $this->wallet->find($walletDestination);
+
+        $walletOrigin->balance += $transaction->amount;
+        $walletDestination->balance -= $transaction->amount;
+
+        $walletOrigin->save();
+        $walletDestination->save();
+
         return $transaction->delete();
     }
 }
