@@ -1,5 +1,3 @@
-
-
 # MathBank 🏦
 
 ![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)
@@ -53,6 +51,20 @@ Antes de começar, assegure-se de ter as seguintes ferramentas instaladas em sua
    ```
 
 5. Acesse a aplicação através do navegador em `http://localhost:8000`. 🌐
+
+## Rodando os Testes 🧪
+
+Para garantir que tudo está funcionando corretamente, você pode rodar os testes da aplicação. Siga os passos abaixo:
+
+1. Acesse o container do PHP:
+   ```bash
+   docker exec -it app bash
+   ```
+
+2. Execute os testes:
+   ```bash
+   docker compose exec app php artisan test tests/feature
+   ```
 
 ## Contribuição 🤝
 
