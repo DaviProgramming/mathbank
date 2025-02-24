@@ -66,6 +66,12 @@ Para garantir que tudo está funcionando corretamente, você pode rodar os teste
    docker compose exec app php artisan test tests/feature
    ```
 
+## 📦 Coleção do Postman
+
+Você pode baixar a coleção do Postman para facilitar os testes da API através do seguinte link:
+
+- [Download da Coleção do Postman](https://drive.google.com/file/d/1ipJDzjiC8hkOyTwWw3SnIbbMXlXqC_In/view?usp=sharing)
+
 ## 🤝 Contribuição 
 
 Contribuições são bem-vindas! Se você gostaria de ajudar, siga as etapas abaixo:
@@ -79,9 +85,3 @@ Contribuições são bem-vindas! Se você gostaria de ajudar, siga as etapas aba
 ## 📫 Contato 
 
 Para qualquer dúvida, sinta-se à vontade para abrir uma issue ou entrar em contato diretamente.
-
-## 📦 Coleção do Postman
-
-Você pode baixar a coleção do Postman para facilitar os testes da API através do seguinte link:
-
-- [Download da Coleção do Postman](https://drive.google.com/file/d/1ipJDzjiC8hkOyTwWw3SnIbbMXlXqC_In/view?usp=sharing)
